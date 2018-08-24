@@ -1,0 +1,315 @@
+{
+    "appid": "4da0b970-9440-418a-b5b1-f6d2def0ade2",
+    "name": "IP Info",
+    "description": "This is the official app for IP Info used to query the various endpoints of IP Info",
+    "type": "information",
+    "product_vendor": "IP Info",
+    "logo": "ipinfo.png",
+    "logo_dark": "ipinfo_dark.png",
+    "product_name": "IP Lookup",
+    "product_version_regex": ".*",
+    "publisher": "Domenico Perre",
+    "license": "Copyright (c) Domenico Perre, 2018",
+    "app_version": "1.0.0",
+    "utctime_updated": "2018-08-20T22:46:40.145243Z",
+    "package_name": "phantom_ipinfo",
+    "main_module": "ipinfo_connector.py",
+    "min_phantom_version": "3.5.205",
+    "app_wizard_version": "1.0.0",
+    "configuration": {
+        "base_url": {
+            "description": "Base URL for api request",
+            "data_type": "string",
+            "required": true,
+            "value_list": [],
+            "default": "https://ipinfo.io/",
+            "order": 0
+        },
+        "APIKey": {
+            "description": "API key for requests to the IP Info endpoint",
+            "data_type": "string",
+            "required": true,
+            "value_list": [],
+            "default": "",
+            "order": 0
+        }
+    },
+    "actions": [
+        {
+            "action": "test connectivity",
+            "identifier": "test_connectivity",
+            "description": "Validate the asset configuration for connectivity using supplied configuration",
+            "verbose": "",
+            "type": "test",
+            "read_only": true,
+            "parameters": {},
+            "output": [],
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "geolocate ip",
+            "identifier": "geolocate_ip",
+            "description": "Queries Service for IP location info",
+            "verbose": "",
+            "type": "investigate",
+            "read_only": true,
+            "parameters": {
+                "ip": {
+                    "description": "IP to lookup",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "ip"
+                    ],
+                    "value_list": [],
+                    "default": "",
+                    "order": 0
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.region",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.country",
+                    "map_info": "Country",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.latitude",
+                    "map_info": "latitude",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.longitude",
+                    "map_info": "longitude",
+                    "data_type": "numeric"
+                },
+                {
+                    "contains": [
+                        "ip"
+                    ],
+                    "data_path": "action_result.parameter.ip",
+                    "map_info": "IP Address",
+                    "data_type": "string"
+                },
+                {
+                    "contains": [
+                        "ip"
+                    ],
+                    "data_path": "action_result.parameter.ip",
+                    "map_info": "name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.city",
+                    "map_info": "City",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.postal",
+                    "map_info": "Postal Code",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "width": 10,
+                "title": "IP Geolocation",
+                "type": "map",
+                "height": 5
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "lookup ip",
+            "identifier": "lookup_ip",
+            "description": "Check for the presence of an IP in a threat intelligence feed",
+            "verbose": "",
+            "type": "investigate",
+            "read_only": true,
+            "parameters": {
+                "ip": {
+                    "description": "IP to lookup",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "ip"
+                    ],
+                    "value_list": [],
+                    "default": "",
+                    "order": 0
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.parameter.ip",
+                    "data_type": "string",
+                    "contains": [
+                        "ip"
+                    ],
+                    "column_name": "ip",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.hostname",
+                    "data_type": "string",
+                    "contains": [
+                        "domain"
+                    ],
+                    "column_name": "hostname",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.city",
+                    "data_type": "string",
+                    "column_name": "City",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.region",
+                    "data_type": "string",
+                    "column_name": "Region",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.data.*.country",
+                    "data_type": "string",
+                    "column_name": "Country",
+                    "column_order": 4
+                },
+                {
+                    "data_path": "action_result.data.*.loc",
+                    "data_type": "string",
+                    "column_name": "Coordinates",
+                    "column_order": 5
+                },
+                {
+                    "data_path": "action_result.data.*.postal",
+                    "data_type": "string",
+                    "column_name": "Postal Code",
+                    "column_order": 5
+                },
+                {
+                    "data_path": "action_result.data.*.asn.asn",
+                    "data_type": "string",
+                    "column_name": "ASN",
+                    "column_order": 6
+                },
+                {
+                    "data_path": "action_result.data.*.asn.name",
+                    "data_type": "string",
+                    "column_name": "ASN Name",
+                    "column_order": 7
+                },
+                {
+                    "data_path": "action_result.data.*.asn.domain",
+                    "data_type": "string",
+                    "contains": [
+                        "domain"
+                    ],
+                    "column_name": "ASN Domain",
+                    "column_order": 8
+                },
+                {
+                    "data_path": "action_result.data.*.asn.route",
+                    "data_type": "string",
+                    "contains": [
+                        "ip"
+                    ],
+                    "column_name": "ASN Route",
+                    "column_order": 9
+                },
+                {
+                    "data_path": "action_result.data.*.asn.type",
+                    "data_type": "string",
+                    "column_name": "ASN Type",
+                    "column_order": 10
+                },
+                {
+                    "data_path": "action_result.data.*.company.name",
+                    "data_type": "string",
+                    "column_name": "Company Name",
+                    "column_order": 11
+                },
+                {
+                    "data_path": "action_result.data.*.company.domain",
+                    "data_type": "string",
+                    "contains": [
+                        "domain"
+                    ],
+                    "column_name": "Company Domain",
+                    "column_order": 12
+                },
+                {
+                    "data_path": "action_result.data.*.company.type",
+                    "data_type": "string",
+                    "column_name": "Company Type",
+                    "column_order": 13
+
+                },
+                {
+                    "data_path": "action_result.data.*.carrier.name",
+                    "data_type": "string",
+                    "column_name": "Carrier Name",
+                    "column_order": 14
+
+                },
+                {
+                    "data_path": "action_result.data.*.carrier.mcc",
+                    "data_type": "string",
+                    "column_name": "Carrier MCC",
+                    "column_order": 15
+
+                },
+                {
+                    "data_path": "action_result.data.*.carrier.mnc",
+                    "data_type": "string",
+                    "column_name": "Carrier MNC",
+                    "column_order": 16
+
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "status",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        }
+    ]
+}
